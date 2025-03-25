@@ -1,8 +1,8 @@
-package com.pro.dailysale.domain
+package com.pro.dailysale.domain.user
 
-import com.pro.dailysale.domain.enums.UserRole
+import com.pro.dailysale.domain.CreateAndUpdateAudit
+import com.pro.dailysale.domain.user.enums.UserRole
 import jakarta.persistence.*
-import java.time.LocalDateTime
 
 @Entity
 data class User (
@@ -21,11 +21,4 @@ data class User (
 
     @Enumerated(EnumType.STRING)
     val role: UserRole,
-
-    @Column(name = "created_at")
-    val createdAt: LocalDateTime,
-
-    @Column(name = "updated_at")
-    val updatedAt: LocalDateTime
-){
-}
+) : CreateAndUpdateAudit()
