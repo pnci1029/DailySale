@@ -5,6 +5,7 @@ import com.pro.dailysale.domain.user.enums.UserRole
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "users")
 data class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
