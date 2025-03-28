@@ -33,6 +33,11 @@ logging:
 
 # 한글 인코딩 문제
 server:
+  port: 8880
   servlet:
     encoding:
       force-response: true
+
+jwt:
+  ACCESS_TOKEN_EXPIRED: 1440
+  REFRESH_TOKEN_EXPIRED: 30240
