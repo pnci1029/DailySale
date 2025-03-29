@@ -37,6 +37,8 @@ server:
   servlet:
     encoding:
       force-response: true
+target:
+  origins: http://localhost:3000
 
 jwt:
   ACCESS_TOKEN_EXPIRED: 1440

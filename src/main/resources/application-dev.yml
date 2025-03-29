@@ -1,0 +1,13 @@
+server:
+  port: 8880
+
+spring:
+  datasource:
+    url: jdbc:h2:~/testdb
+    driver-class-name: org.h2.Driver
+    username: sar
+    password:
+
+# 개발 환경 CORS 설정
+target:
+  origins: http://localhost:3000
