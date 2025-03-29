@@ -3,7 +3,7 @@ package com.pro.dailysale.service.auth
 import com.pro.dailysale.service.auth.dto.OauthUserInfo
 import com.pro.dailysale.service.auth.dto.GoogleUserInfoResponse
 import com.pro.dailysale.service.auth.dto.TokenInfo
-import com.pro.dailysale.service.auth.dto.TokenResponse
+import com.pro.dailysale.service.auth.dto.OauthTokenResponseDTO
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -50,7 +50,7 @@ class GoogleAuthService(
             "grant_type" to "authorization_code"
         )
 
-        val response = restTemplate.postForEntity(url, params, TokenResponse::class.java)
+        val response = restTemplate.postForEntity(url, params, OauthTokenResponseDTO::class.java)
 
         return response.body?.let {
             TokenInfo(
