@@ -15,8 +15,8 @@ import java.net.URLEncoder
 
 @Service
 class GoogleAuthService(
-    @Value("\${google.auth.OAUTH2_CLIENT_ID}") private val clientId: String,
-    @Value("\${google.auth.OAUTH2_CLIENT_SECRET}") private val clientSecret: String,
+    @Value("\${spring.security.oauth2.client.registration.google.client-id}") private val clientId: String,
+    @Value("\${spring.security.oauth2.client.registration.google.client-secret}") private val clientSecret: String,
     @Value("\${google.auth.REDIRECT_URI}") private val redirectUri: String,
     private val restTemplate: RestTemplate
 ) {
