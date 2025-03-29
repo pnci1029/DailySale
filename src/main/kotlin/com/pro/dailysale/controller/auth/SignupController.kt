@@ -3,7 +3,6 @@ package com.pro.dailysale.controller.auth
 import com.pro.dailysale.service.auth.GoogleAuthService
 import com.pro.dailysale.service.auth.SignupService
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -19,13 +18,13 @@ class SignupController(
     @GetMapping("/google")
     fun googleAuthUrl(
         response: HttpServletResponse,
-    ): ResponseEntity<*> {
-        val authUrl = googleAuthService.generateAuthorizationUrl(response)
-        return ResponseEntity.ok(mapOf("url" to authUrl))
-    }
+    ) =  googleAuthService.generateAuthorizationUrl(response)
 
     @GetMapping("/google/callback")
-    fun googleCallback(@RequestParam code: String): ResponseEntity<*> {
+    fun googleCallback(
+        @RequestParam code: String,
+        response: HttpServletResponse,
+        ){
         val tokenInfo = googleAuthService.getAccessToken(code)
 
         // 토큰을 이용해 사용자 정보 가져오기
@@ -37,6 +36,6 @@ class SignupController(
         // JWT 토큰 생성 및 반환
         val jwtToken = signupService.generateToken(user)
 
-        return ResponseEntity.ok(mapOf("token" to jwtToken, "user" to user))
+        signupService.loginSuccess(jwtToken, response)
     }
 }

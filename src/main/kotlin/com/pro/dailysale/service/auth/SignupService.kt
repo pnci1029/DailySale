@@ -4,11 +4,14 @@ import com.pro.dailysale.domain.user.User
 import com.pro.dailysale.domain.user.UserRepository
 import com.pro.dailysale.domain.user.enums.UserRole
 import com.pro.dailysale.service.auth.dto.OauthUserInfo
+import com.pro.dailysale.service.auth.dto.TokenResponseDTO
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.net.URLEncoder
 import java.util.Date
 
 @Service
@@ -17,6 +20,7 @@ class SignupService (
     @Value("\${jwt.ACCESS_TOKEN_EXPIRED}") private val accessTokenValidTime: Int,
     @Value("\${jwt.REFRESH_TOKEN_EXPIRED}") private val refreshTokenValidTime: Int,
     @Value("\${jwt.secret}") private val secretKey: String,
+    @Value("\${target.origins}") private val origin: String,
 ){
 
     @Transactional
@@ -41,7 +45,7 @@ class SignupService (
     }
 
     @Transactional
-    fun generateToken(user: User): TokenResponseDto {
+    fun generateToken(user: User): TokenResponseDTO {
         val now = Date()
         val accessTokenExpiration = Date(now.time + accessTokenValidTime)
         val refreshTokenExpiration = Date(now.time + refreshTokenValidTime)
@@ -67,11 +71,24 @@ class SignupService (
         // Refresh Token 저장 (DB 또는 Redis)
         saveRefreshToken(user.userEmail, refreshToken)
 
-        return TokenResponseDto(
+        return TokenResponseDTO(
             accessToken = accessToken,
             refreshToken = refreshToken,
             accessTokenExpiresIn = accessTokenExpiration.time
         )
+    }
+
+    fun loginSuccess(jwtToken: TokenResponseDTO, response: HttpServletResponse) {
+        val params = mapOf(
+            "accessToken" to jwtToken.accessToken,
+            "refreshToken" to jwtToken.refreshToken
+        )
+
+        val queryString = params.entries.joinToString("&") { (key, value) ->
+            "$key=${URLEncoder.encode(value, "UTF-8")}"
+        }
+        val authUrl = "$origin/success?$queryString"
+        response.sendRedirect(authUrl)
     }
 
     // Refresh Token을 저장하는 메서드
@@ -82,11 +99,4 @@ class SignupService (
 //            userRepository.save(it)
 //        }
     }
-
-    // TokenResponseDto 클래스 - 응답을 위한 DTO
-    data class TokenResponseDto(
-        val accessToken: String,
-        val refreshToken: String,
-        val accessTokenExpiresIn: Long
-    )
 }
