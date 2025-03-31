@@ -13,30 +13,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-
-      # Gradle 빌드 (필요한 경우)
+      # Gradle 빌드 실행
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
           ./gradlew clean build -x test
 
-      # 시크릿
+      # 시크릿 설정 파일 생성
       - name: Add secret configuration
         run: |
-          mkdir -p artifacts/config
-          echo "${{ secrets.APPLICATION_SECRET }}" > artifacts/config/application-secret.yml
+          mkdir -p config
+          echo "${{ secrets.APPLICATION_SECRET }}" > config/application-secret.yml
 
-      # 압축 파일 생성
+      # 프로젝트 전체 압축
       - name: Create ZIP archive
         run: |
-          mkdir -p artifacts
-          cp build/libs/*.jar artifacts/
-          cp -r src artifacts/
-          cp -r config artifacts/ || true
-          cp Dockerfile artifacts/ || true
-          cd artifacts
-          zip -r ../dailysale.zip .
-          cd ..
+          zip -r dailysale.zip . -x ".git/*" ".github/*" "node_modules/*" ".gradle/*" ".idea/*" "*.iml" ".gitignore"
           ls -la dailysale.zip
 
       # SSH 접근 설정
@@ -48,11 +40,6 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
           ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      # 원격 서버에 디렉토리 생성
-#      - name: Create directory on remote server
-#        run: |
-#          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p /dailySale"
-
       # ZIP 파일 전송
       - name: Copy ZIP to remote server
         run: |
@@ -61,8 +48,10 @@ jobs:
       # 배포 스크립트 실행
       - name: Deploy on remote server
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_UESR }}@${{ secrets.REMOTE_HOST }} "
             cd /dailysale &&
+            rm -rf app || true &&
+            mkdir -p app &&
             unzip -o dailysale.zip -d app &&
             cd app &&
             docker build -t dailysale:latest . &&
@@ -72,7 +61,7 @@ jobs:
               -p 8880:8080 \
               --restart unless-stopped \
               -v /dailysale/logs:/app/logs \
-              -v /dailySale/config:/app/config \
+              -v /dailysale/config:/app/config \
               dailysale:latest
           "
 
