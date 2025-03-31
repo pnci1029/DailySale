@@ -20,6 +20,12 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build -x test
 
+      # 시크릿
+      - name: Add secret configuration
+        run: |
+          mkdir -p artifacts/config
+          echo "${{ secrets.APPLICATION_SECRET }}" > artifacts/config/application-secret.yml
+
       # 압축 파일 생성
       - name: Create ZIP archive
         run: |
