@@ -30,8 +30,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/dailysale:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/dailysale:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/dailySale:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/dailySale:latest
           cache-to: type=inline
 
       # ssh 접근
