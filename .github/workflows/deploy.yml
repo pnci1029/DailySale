@@ -15,10 +15,10 @@ jobs:
 
 
       # Gradle 빌드 (필요한 경우)
-#      - name: Build with Gradle
-#        run: |
-#          chmod +x ./gradlew
-#          ./gradlew clean build -x test
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build -x test
 
       # 압축 파일 생성
       - name: Create ZIP archive
