@@ -1,9 +1,9 @@
-name: Deploy Docker Java Application to Remote Server
+name: Deploy to Remote Server via SSH
 
 on:
   push:
     branches:
-      - main # 테스트
+      - main
 
 jobs:
   deploy:
@@ -11,9 +11,29 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # ssh 접근
+
+      # Gradle 빌드 (필요한 경우)
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build -x test
+
+      # 압축 파일 생성
+      - name: Create ZIP archive
+        run: |
+          mkdir -p artifacts
+          cp build/libs/*.jar artifacts/
+          cp -r src artifacts/
+          cp -r config artifacts/ || true
+          cp Dockerfile artifacts/ || true
+          cd artifacts
+          zip -r ../dailysale.zip .
+          cd ..
+          ls -la dailysale.zip
+
+      # SSH 접근 설정
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
@@ -22,34 +42,34 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
           ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      # 소스 코드 압축
-      - name: Compress source code
-        run: tar -czf dailysale-src.tar.gz .
-
-      # 소스 코드 전송
-      - name: Copy source code to server
-        run: scp -i ~/.ssh/id_rsa dailysale-src.tar.gz ${{ secrets.REMOTE_UESR }}@${{ secrets.REMOTE_HOST }}:/dailySale/
-
-      # 원격 서버에서 빌드 및 실행
-      - name: Build and run on remote server
+      # 원격 서버에 디렉토리 생성
+      - name: Create directory on remote server
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_UESR }}@${{ secrets.REMOTE_HOST }} "
+          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p /dailySale"
+
+      # ZIP 파일 전송
+      - name: Copy ZIP to remote server
+        run: |
+          scp -i ~/.ssh/id_rsa dailysale.zip ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/dailySale/
+
+      # 배포 스크립트 실행
+      - name: Deploy on remote server
+        run: |
+          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
             cd /dailySale &&
-            tar -xzf dailysale-src.tar.gz -C src &&
-            cd src &&
-            docker build -t ${{ secrets.DOCKER_USERNAME }}/dailysale:latest . &&
-            cd /dailySale &&
-            docker stop dailysale-be-container || true &&
-            docker rm dailysale-be-container || true &&
-            docker run -d --name dailysale-be-container \
-              -p 8080:8080 \
+            unzip -o dailysale.zip -d app &&
+            cd app &&
+            docker build -t dailysale:latest . &&
+            docker stop dailysale-container || true &&
+            docker rm dailysale-container || true &&
+            docker run -d --name dailysale-container \
+              -p 8880:8080 \
               --restart unless-stopped \
               -v /dailySale/logs:/app/logs \
               -v /dailySale/config:/app/config \
-              ${{ secrets.DOCKER_USERNAME }}/dailysale:latest
+              dailysale:latest
           "
 
-#      # 블루-그린 전환 스크립트 실행 (필요한 경우)
-#      - name: Switch Blue-Green Environment
-#        run: |
-#          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_UESR }}@${{ secrets.REMOTE_HOST }} "cd /dailySale && sh ./blue-green-switch.sh"
+      # 배포 완료 알림
+      - name: Deployment notification
+        run: echo "✅ Deployment completed successfully!"
