@@ -53,7 +53,7 @@ jobs:
             rm -rf app || true &&
             mkdir -p app &&
             unzip -o dailysale.zip -d app &&
-            echo '${{ secrets.APPLICATION_SECRET }}' > app/src/main/resources/application.yml &&
+            echo '${{ secrets.APPLICATION_SECRET }}' > app/src/main/resources/application-secret.yml &&
             docker build -t dailysale:latest . &&
             docker stop dailysale-container || true &&
             docker rm dailysale-container || true &&
