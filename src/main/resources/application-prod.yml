@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    include: prod
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${google.auth.REDIRECT_URI}
+            scope:
+              - email
+              - profile
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+
+server:
+  port: 8880
+  servlet:
+    encoding:
+      force-response: true
+
+jwt:
+  ACCESS_TOKEN_EXPIRED: 1440
+  REFRESH_TOKEN_EXPIRED: 30240
+
+target:
+  origins: https://123123
