@@ -63,11 +63,11 @@ jobs:
             docker stop dailysale-container || true &&
             docker rm dailysale-container || true &&
             docker run -d --name dailysale-container \
-              -p 8880:8080 \
-              --restart unless-stopped \
-              -v /dailysale/logs:/app/logs \
-              -v /dailysale/config:/app/config \
-              dailysale:latest
+            -p 8880:8080 \
+            --network host \
+            -v /dailysale/logs:/app/logs \
+            -v /dailysale/config:/app/config \
+            dailysale:latest
           "
 
       # 배포 완료 알림
