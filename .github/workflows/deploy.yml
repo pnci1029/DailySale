@@ -19,12 +19,6 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build -x test
 
-      # 시크릿 설정 파일 생성
-#      - name: Add secret configuration
-#        run: |
-#          mkdir -p src/main/resources
-#          echo '${{ secrets.APPLICATION_SECRET }}' > src/main/resources/application.yml
-
       # 설정 파일 확인
       - name: Verify config file
         run: |
