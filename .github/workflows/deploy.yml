@@ -13,17 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Gradle 빌드 실행
-      - name: Build with Gradle
-        run: |
-          chmod +x ./gradlew
-          ./gradlew clean build -x test
-
       # 시크릿 설정 파일 생성
       - name: Add secret configuration
         run: |
           mkdir -p src/main/resources
           echo '${{ secrets.APPLICATION_SECRET }}' > src/main/resources/application-secret.yml
+
+      # Gradle 빌드 실행
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build -x test
 
       # 설정 파일 확인
       - name: Verify config file
