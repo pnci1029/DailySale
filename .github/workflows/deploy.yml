@@ -3,7 +3,7 @@ name: Deploy to Remote Server via SSH
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   deploy:
@@ -13,17 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 시크릿 설정 파일 생성
+      - name: Add secret configuration
+        run: |
+          mkdir -p src/main/resources
+          echo '${{ secrets.APPLICATION_SECRET }}' > src/main/resources/application-secret.yml
+
       # Gradle 빌드 실행
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
           ./gradlew clean build -x test
-
-      # 시크릿 설정 파일 생성
-      - name: Add secret configuration
-        run: |
-          mkdir -p src/main/resources
-          echo '${{ secrets.APPLICATION_SECRET }}' > src/main/resources/application.yml
 
       # 설정 파일 확인
       - name: Verify config file
@@ -62,14 +62,8 @@ jobs:
             docker build -t dailysale:latest . &&
             docker stop dailysale-container || true &&
             docker rm dailysale-container || true &&
-            docker restart dailysale-container
+            docker-compose up -d
           "
-#            docker run -d --name dailysale-container \
-#            -p 8880:8080 \
-#            --network host \
-#            -v /dailysale/logs:/app/logs \
-#            -v /dailysale/config:/app/config \
-#            dailysale:latest
 
       # 배포 완료 알림
       - name: Deployment notification
