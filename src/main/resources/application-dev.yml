@@ -1,13 +1,24 @@
-server:
-  port: 8880
-
 spring:
+  h2:
+    console:
+      enabled: true
   datasource:
     url: jdbc:h2:~/testdb
     driver-class-name: org.h2.Driver
     username: sar
     password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  sql:
+    init:
+      continue-on-error: 'true'
+      mode: always
 
-# 개발 환경 CORS 설정
 target:
   origins: http://localhost:3000

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: secret
+    active: dev, secret
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -15,41 +15,15 @@ spring:
             scope:
               - email
               - profile
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:~/testdb
-    driver-class-name: org.h2.Driver
-    username: sar
-    password:
 
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-
-  sql:
-    init:
-      continue-on-error: 'true'
-      mode: always
-logging:
-  level:
-    com.example.pro.controller: debug
-
-# 한글 인코딩 문제
 server:
   port: 8880
   servlet:
     encoding:
       force-response: true
-target:
-  origins: http://localhost:3000
-
+logging:
+  level:
+    com.example.pro.controller: debug
 jwt:
   ACCESS_TOKEN_EXPIRED: 1440
   REFRESH_TOKEN_EXPIRED: 30240
