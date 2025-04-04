@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.3.10"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
+    kotlin("kapt") version "1.9.25"
 }
 
 group = "com.pro"
@@ -18,6 +19,8 @@ java {
 repositories {
     mavenCentral()
 }
+
+val querydslVersion = "5.0.0" // Querydsl 버전 지정
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -37,6 +40,9 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    // QueryDSL 의존성 추가
+    implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
+    kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
 }
 
 kotlin {
@@ -49,6 +55,23 @@ allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
     annotation("jakarta.persistence.Embeddable")
+}
+
+// Querydsl Q클래스 생성 경로 설정
+sourceSets {
+    main {
+        kotlin {
+            srcDir("$buildDir/generated/source/kapt/main")
+        }
+    }
+}
+
+// kapt 설정 추가
+kapt {
+    correctErrorTypes = true
+    javacOptions {
+        option("querydsl.entityAccessors", "true")
+    }
 }
 
 tasks.withType<Test> {
