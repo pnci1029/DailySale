@@ -1,4 +1,4 @@
-package com.pro.dailysale.service.auth.dto
+package com.pro.dailysale.auth.service.dto
 
 data class OauthTokenResponseDTO(
     val access_token: String,

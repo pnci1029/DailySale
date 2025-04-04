@@ -1,4 +1,4 @@
-package com.pro.dailysale.domain
+package com.pro.dailysale.util
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.EntityListeners

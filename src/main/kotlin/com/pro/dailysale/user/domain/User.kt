@@ -1,7 +1,7 @@
-package com.pro.dailysale.domain.user
+package com.pro.dailysale.user.domain
 
-import com.pro.dailysale.domain.CreateAndUpdateAudit
-import com.pro.dailysale.domain.user.enums.UserRole
+import com.pro.dailysale.util.CreateAndUpdateAudit
+import com.pro.dailysale.user.domain.enums.UserRole
 import jakarta.persistence.*
 
 @Entity

@@ -1,4 +1,4 @@
-package com.pro.dailysale.domain.user
+package com.pro.dailysale.user.domain
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

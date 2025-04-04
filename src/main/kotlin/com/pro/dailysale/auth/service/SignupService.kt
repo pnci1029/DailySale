@@ -1,11 +1,11 @@
-package com.pro.dailysale.service.auth
+package com.pro.dailysale.auth.service
 
 import com.pro.dailysale.config.JwtTokenProvider
-import com.pro.dailysale.domain.user.User
-import com.pro.dailysale.domain.user.UserRepository
-import com.pro.dailysale.domain.user.enums.UserRole
-import com.pro.dailysale.service.auth.dto.OauthUserInfo
-import com.pro.dailysale.service.auth.dto.TokenResponseDTO
+import com.pro.dailysale.user.domain.User
+import com.pro.dailysale.user.domain.UserRepository
+import com.pro.dailysale.user.domain.enums.UserRole
+import com.pro.dailysale.auth.service.dto.OauthUserInfo
+import com.pro.dailysale.auth.service.dto.TokenResponseDTO
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service

@@ -1,7 +1,7 @@
-package com.pro.dailysale.service.user
+package com.pro.dailysale.user.service
 
-import com.pro.dailysale.controller.user.dto.UserResponseDTO
-import com.pro.dailysale.domain.user.UserRepository
+import com.pro.dailysale.user.controller.dto.UserResponseDTO
+import com.pro.dailysale.user.domain.UserRepository
 import com.pro.dailysale.util.exception.CustomException
 import com.pro.dailysale.util.exception.ErrorCode
 import org.springframework.http.ResponseEntity

@@ -1,6 +1,6 @@
-package com.pro.dailysale.controller.user.dto
+package com.pro.dailysale.user.controller.dto
 
-import com.pro.dailysale.domain.user.enums.UserRole
+import com.pro.dailysale.user.domain.enums.UserRole
 
 data class UserResponseDTO(
     val id: Long,

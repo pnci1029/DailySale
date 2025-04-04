@@ -1,6 +1,6 @@
-package com.pro.dailysale.domain.subscribe
+package com.pro.dailysale.subscribe.domain
 
-import com.pro.dailysale.domain.CreateAndUpdateAudit
+import com.pro.dailysale.util.CreateAndUpdateAudit
 import jakarta.persistence.*
 
 @Entity

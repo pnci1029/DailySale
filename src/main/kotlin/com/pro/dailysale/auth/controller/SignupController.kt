@@ -1,7 +1,7 @@
-package com.pro.dailysale.controller.auth
+package com.pro.dailysale.auth.controller
 
-import com.pro.dailysale.service.auth.GoogleAuthService
-import com.pro.dailysale.service.auth.SignupService
+import com.pro.dailysale.auth.service.GoogleAuthService
+import com.pro.dailysale.auth.service.SignupService
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

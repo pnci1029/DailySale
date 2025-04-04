@@ -1,9 +1,9 @@
-package com.pro.dailysale.service.auth
+package com.pro.dailysale.auth.service
 
-import com.pro.dailysale.service.auth.dto.OauthUserInfo
-import com.pro.dailysale.service.auth.dto.GoogleUserInfoResponse
-import com.pro.dailysale.service.auth.dto.TokenInfo
-import com.pro.dailysale.service.auth.dto.OauthTokenResponseDTO
+import com.pro.dailysale.auth.service.dto.OauthUserInfo
+import com.pro.dailysale.auth.service.dto.GoogleUserInfoResponse
+import com.pro.dailysale.auth.service.dto.TokenInfo
+import com.pro.dailysale.auth.service.dto.OauthTokenResponseDTO
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
