@@ -43,6 +43,14 @@ dependencies {
     // QueryDSL 의존성 추가
     implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
     kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
+
+    // open ai
+    implementation("com.aallam.openai:openai-client:3.3.0")
+    implementation("io.ktor:ktor-client-okhttp:2.3.1")
+
+    // suspend
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
 }
 
 kotlin {
