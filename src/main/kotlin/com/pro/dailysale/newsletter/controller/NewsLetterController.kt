@@ -1,6 +1,8 @@
 package com.pro.dailysale.newsletter.controller
 
+import com.pro.dailysale.newsletter.controller.dto.NewsLetterDeleteDTO
 import com.pro.dailysale.newsletter.controller.dto.NewsLetterPostDTO
+import com.pro.dailysale.newsletter.controller.dto.NewsLetterPutDTO
 import com.pro.dailysale.newsletter.service.NewsLetterService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -9,9 +11,9 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/news")
-class NewsLetterController (
+class NewsLetterController(
     val newsLetterService: NewsLetterService
-){
+) {
     @PostMapping
     fun createNewsLetter(
         @RequestBody dto: NewsLetterPostDTO
@@ -27,4 +29,22 @@ class NewsLetterController (
             page = 0
         ) pageable: Pageable,
     ) = newsLetterService.getNewsLetters(pageable, query)
+
+    @PutMapping("/{idx}")
+    fun updateNewsLetter(
+        @RequestBody dto: NewsLetterPutDTO,
+        @PathVariable("idx") idx: Long
+    ) = newsLetterService.updateNewsLetter(
+        NewsLetterPutDTO(
+            idx = idx,
+            title = dto.title,
+            content = dto.content,
+            sentAt = dto.sentAt,
+        )
+    )
+
+    @DeleteMapping
+    fun removeNewsLetter(
+        @RequestBody dto: NewsLetterDeleteDTO,
+    ) = newsLetterService.removeNewsLetters(dto)
 }

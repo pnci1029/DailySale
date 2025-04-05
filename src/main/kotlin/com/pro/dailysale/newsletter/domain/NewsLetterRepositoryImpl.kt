@@ -1,6 +1,7 @@
 package com.pro.dailysale.newsletter.domain
 
 import com.pro.dailysale.common.PageResponseDTO
+import com.pro.dailysale.newsletter.controller.dto.NewsLetterPutDTO
 import com.pro.dailysale.newsletter.controller.dto.NewsLetterResponseDTO
 import com.pro.dailysale.newsletter.domain.QNewsLetter.newsLetter
 import com.querydsl.core.types.Projections
@@ -54,6 +55,23 @@ class NewsLetterRepositoryImpl(
             content = content
         )
     }
+
+    override fun updateNewsLetter(
+        dto: NewsLetterPutDTO
+    ) = queryFactory
+        .update(newsLetter)
+        .set(newsLetter.title, dto.title)
+        .set(newsLetter.content, dto.content)
+        .set(newsLetter.sentAt, dto.sentAt)
+        .where(newsLetter.id.eq(dto.idx))
+        .execute()
+
+    override fun remove(
+        idx: Long
+    ) = queryFactory
+        .delete(newsLetter)
+        .where(newsLetter.id.eq(idx))
+        .execute()
 
     // 검색어를 타이틀이나 컨텐츠에서 찾는 조건 함수
     private fun searchKeywordContains(query: String?): BooleanExpression? {

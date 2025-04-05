@@ -6,6 +6,6 @@ import java.time.LocalDateTime
 data class NewsLetterPostDTO(
     val title: String,
     val content: String,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val sentAt: LocalDateTime,
 )
