@@ -8,6 +8,7 @@ import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Pageable
+import java.time.LocalDateTime
 
 class NewsLetterRepositoryImpl(
     private val queryFactory: JPAQueryFactory
@@ -72,6 +73,28 @@ class NewsLetterRepositoryImpl(
         .delete(newsLetter)
         .where(newsLetter.id.eq(idx))
         .execute()
+
+
+    override fun findTodayNewsLetter(
+        today: LocalDateTime
+    ): MutableList<NewsLetterResponseDTO> = queryFactory
+        .select(
+            Projections.constructor(
+                NewsLetterResponseDTO::class.java,
+                newsLetter.id,
+                newsLetter.title,
+                newsLetter.content,
+                newsLetter.isSent,
+                newsLetter.sentAt,
+                newsLetter.createdAt
+            )
+        )
+        .from(newsLetter)
+        .where(
+            newsLetter.sentAt.goe(today),
+            newsLetter.sentAt.loe(today.plusDays(1)),
+        )
+        .fetch()
 
     // 검색어를 타이틀이나 컨텐츠에서 찾는 조건 함수
     private fun searchKeywordContains(query: String?): BooleanExpression? {
