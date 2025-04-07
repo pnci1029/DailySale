@@ -1,5 +1,6 @@
 package com.pro.dailysale.newsletter.domain
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.pro.dailysale.util.CreateAndUpdateAudit
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -17,6 +18,7 @@ data class NewsLetter(
     val isSent: String = "N",
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val sentAt: LocalDateTime,
 
 ) : CreateAndUpdateAudit()
