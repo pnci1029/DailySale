@@ -27,13 +27,16 @@ class NewsLetterScheduler(
         val mimeMessage = javaMailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, true, "UTF-8")
 
-        val title = "안녕하세요. 오늘의 할인소식입니다! "
-        val subject = ""
+        todayNewLetters?.forEach{ newsLetter ->
 
-        helper.setFrom(sender)
-        helper.setTo("pnci1029@gmail.com")
-        helper.setSubject(title)
-        helper.setText(subject, true)
+            val title = newsLetter.title
+            val subject = newsLetter.content
+
+            helper.setFrom(sender)
+            helper.setTo("pnci1029@gmail.com")
+            helper.setSubject(title)
+            helper.setText(subject, true)
+        }
 
         javaMailSender.send(mimeMessage)
     }

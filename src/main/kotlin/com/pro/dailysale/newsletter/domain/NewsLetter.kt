@@ -12,6 +12,7 @@ data class NewsLetter(
     val id: Long? = null,
 
     val title: String,
+    @Lob // text
     val content: String,
 
     @Column(nullable = true, length = 1)
