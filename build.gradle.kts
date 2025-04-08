@@ -51,6 +51,9 @@ dependencies {
     // suspend
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
+
+    // google smtp
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 kotlin {
