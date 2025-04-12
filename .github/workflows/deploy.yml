@@ -53,14 +53,15 @@ jobs:
       # 배포 스크립트 실행
       - name: Deploy on remote server
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_UESR }}@${{ secrets.REMOTE_HOST }} "
+          ssh -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
             cd /salehero &&
             rm -rf app || true &&
             mkdir -p app &&
             unzip -o salehero.zip -d app &&
             docker build -t salehero:latest . &&
-            docker stop salehero-container || true &&
-            docker rm salehero-container || true &&
+            if docker ps -a | grep -q salehero-container; then
+            docker stop salehero-container && docker rm salehero-container
+            fi &&
             docker-compose up -d
           "
 
