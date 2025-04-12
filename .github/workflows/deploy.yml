@@ -62,8 +62,9 @@ jobs:
             if docker ps -a | grep -q salehero-container; then
             docker stop salehero-container && docker rm salehero-container
             fi &&
-            docker-compose up -d
+            docker-compose up -d salehero
           "
+#            docker-compose up -d
 
       # 배포 완료 알림
       - name: Deployment notification
