@@ -32,9 +32,11 @@ server:
   servlet:
     encoding:
       force-response: true
+
 logging:
   level:
     com.example.pro.controller: warn
+
 jwt:
   ACCESS_TOKEN_EXPIRED: 1440
   REFRESH_TOKEN_EXPIRED: 30240
