@@ -15,4 +15,4 @@ spring:
       ddl-auto: validate
 
 target:
-  origins: https://123123
+  origins: ${google.auth.SUCCESS_REDIRECT}
