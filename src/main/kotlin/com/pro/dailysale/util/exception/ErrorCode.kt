@@ -8,10 +8,11 @@ enum class ErrorCode(
     val httpCode: Int,
     val msg: String
 ) {
-    // 여기에 열거형 상수 정의
     CODE_200(200, "Success"),
     CODE_404(404, "존재하지 않는 데이터"),
     CODE_403(403, "인증 정보가 없습니다."),
+
+    CODE_4000(404, "유효하지 않은 이메일 타입")
 
     ;
 

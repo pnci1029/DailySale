@@ -1,9 +1,9 @@
 package com.pro.dailysale.newsletter.service
 
+import com.pro.dailysale.common.ResponseDTO
 import com.pro.dailysale.newsletter.controller.dto.NewsLetterDeleteDTO
 import com.pro.dailysale.newsletter.controller.dto.NewsLetterPostDTO
 import com.pro.dailysale.newsletter.controller.dto.NewsLetterPutDTO
-import com.pro.dailysale.newsletter.controller.dto.NewsLetterResponseDTO
 import com.pro.dailysale.newsletter.domain.NewsLetter
 import com.pro.dailysale.newsletter.domain.NewsLetterRepository
 import com.pro.dailysale.util.SecurityUtil.Companion.getCurrentUser
@@ -55,20 +55,18 @@ class NewsLetterService(
         }
 
     @Transactional
-    fun removeNewsLetters(dto: NewsLetterDeleteDTO): ResponseEntity<Map<String, Any>> {
+    fun removeNewsLetters(dto: NewsLetterDeleteDTO): ResponseDTO<Long> {
         var deletedCount = 0L
 
         dto.idxList.forEach { idx ->
             val result = newsLetterRepository.remove(idx)
-
-
             deletedCount += result
         }
 
-        return ResponseEntity.ok().body(mapOf(
-            "success" to true,
-            "deletedCount" to deletedCount,
-            "message" to "뉴스레터 삭제가 완료되었습니다."
-        ))
+        return ResponseDTO(
+            success = true,
+            message = "뉴스레터 삭제가 완료되었습니다.",
+            data = deletedCount
+        )
     }
 }
