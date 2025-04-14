@@ -2,16 +2,18 @@ package com.pro.dailysale.subscribe.controller
 
 import com.pro.dailysale.subscribe.controller.dto.SubscribePostDTO
 import com.pro.dailysale.subscribe.service.SubscribeService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/subscribe")
 class SubscribeController (
     val subscribeService: SubscribeService
 ){
+
+    @GetMapping("/{email}")
+    fun validateSubscriber(
+        @PathVariable("email") email: String
+    ) = subscribeService.isEmailNotPresent(email)
 
     @PostMapping
     fun addSubscriber(
