@@ -6,7 +6,7 @@ import com.pro.dailysale.newsletter.controller.dto.NewsLetterPostDTO
 import com.pro.dailysale.newsletter.controller.dto.NewsLetterPutDTO
 import com.pro.dailysale.newsletter.domain.NewsLetter
 import com.pro.dailysale.newsletter.domain.NewsLetterRepository
-import com.pro.dailysale.util.SecurityUtil.Companion.getCurrentUser
+import com.pro.dailysale.util.security.SecurityUtil.Companion.getCurrentUser
 import com.pro.dailysale.util.exception.CustomException
 import com.pro.dailysale.util.exception.ErrorCode
 import org.springframework.data.domain.Pageable

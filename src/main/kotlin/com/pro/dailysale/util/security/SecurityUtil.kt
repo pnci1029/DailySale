@@ -1,4 +1,4 @@
-package com.pro.dailysale.util
+package com.pro.dailysale.util.security
 
 import com.pro.dailysale.user.domain.User
 import com.pro.dailysale.user.domain.enums.UserRole
