@@ -15,4 +15,10 @@ data class Subscriber(
     @Column(nullable = true, length = 1)
     val isSubscribed: String = "Y",
 
+    @Column(nullable = true, length = 1)
+    val isMarketingAgreed: String = "N",
+
+    @Enumerated(EnumType.STRING)
+    val frequency: NewsLetterFrequency ,
+
 ) : CreateAndUpdateAudit()
