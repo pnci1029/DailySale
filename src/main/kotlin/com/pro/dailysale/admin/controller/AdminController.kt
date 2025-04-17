@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController
 class AdminController (
     val adminService: AdminService
 ){
-
     @PostMapping("/news-letter")
     fun createNewsLetter(
         @RequestBody dto: NewsLetterPostDTO
