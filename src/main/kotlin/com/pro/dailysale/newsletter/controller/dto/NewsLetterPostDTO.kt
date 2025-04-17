@@ -13,6 +13,7 @@ data class NewsLetterPostDTO(
     @field:NotBlank
     @field:NotNull
     val content: String,
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val sentAt: LocalDateTime,
 )
