@@ -4,7 +4,7 @@ import net.minidev.json.JSONObject
 
 class CustomException : Exception {
     val code: ErrorCode
-    var bindingErrors: List<FieldBindingError>? = null
+    var bindingErrors: List<FieldBindingError> = emptyList()
         private set
     var bindingErrors2: List<FieldBindingError>? = null
         private set

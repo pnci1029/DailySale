@@ -1,7 +1,7 @@
 package com.pro.dailysale.config
 
-import com.pro.dailysale.domain.user.User
-import com.pro.dailysale.service.auth.dto.TokenResponseDTO
+import com.pro.dailysale.user.domain.User
+import com.pro.dailysale.auth.service.dto.TokenResponseDTO
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
