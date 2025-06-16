@@ -38,4 +38,4 @@ jwt:
   REFRESH_TOKEN_EXPIRED: 30240
 
 target:
-  origins: https://123123
+  origins: https://123122
