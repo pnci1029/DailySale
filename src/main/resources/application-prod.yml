@@ -9,10 +9,3 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: validate
-
-target:
-  origins: ${google.auth.SUCCESS_REDIRECT}
